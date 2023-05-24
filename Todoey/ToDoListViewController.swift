@@ -51,5 +51,36 @@ extension ToDoListViewController  {
 
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    //MARK: Add New items
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        //create a pop up (UIAlertController)
+        //have an editable text field in that UIAlert
+        //on submission append the new item to the end of the itemArray
+        // display/present the pop up
+        
+        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            //what will happen once the user clicks the Add Item button on our UIAlert
+            print("Success to the console!")
+        }
+        
+        alert.addTextField { alertTextField in
+            alertTextField.placeholder = "Create new item"
+            print(alertTextField.text)
+        }
+        
+        alert.addTextField(configurationHandler: { alertTextField in
+            alertTextField.placeholder = "Create new item"
+            print(alertTextField.text ?? "unknown")
+        })
+        
+        
+        alert.addAction(action)
+        
+        present(alert, animated: true, completion: nil)
+        
+    }
 }
 
