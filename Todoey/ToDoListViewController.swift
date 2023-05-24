@@ -45,7 +45,11 @@ extension ToDoListViewController  {
     
     //MARK: TableView Delegate Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(itemArray[indexPath.row])
+//        print(itemArray[indexPath.row])
+        let cell = tableView.cellForRow(at: indexPath)
+        tableView.cellForRow(at: indexPath)?.accessoryType = cell?.accessoryType != .checkmark ? .checkmark : .none
+
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
