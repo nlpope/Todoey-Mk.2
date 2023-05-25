@@ -59,22 +59,24 @@ extension ToDoListViewController  {
         //on submission append the new item to the end of the itemArray
         // display/present the pop up
         
+        //how do i live monitor a UIAlertController's textfield ?
+        var textFieldText: String?
+        
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             //what will happen once the user clicks the Add Item button on our UIAlert
             print("Success to the console!")
-        }
-        
-        alert.addTextField { alertTextField in
-            alertTextField.placeholder = "Create new item"
-            print(alertTextField.text)
+            
         }
         
         alert.addTextField(configurationHandler: { alertTextField in
+
             alertTextField.placeholder = "Create new item"
-            print(alertTextField.text ?? "unknown")
+            print("textfield updated")
+
         })
+        
         
         
         alert.addAction(action)
