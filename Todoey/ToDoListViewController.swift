@@ -12,7 +12,7 @@ import UIKit
 //..conforms = no UITab....Source...Delegate calls needed but must still be defined in ext
 class ToDoListViewController: UITableViewController {
     
-    let itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogorgon"]
+    var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogorgon"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,21 +60,23 @@ extension ToDoListViewController  {
         // display/present the pop up
         
         //how do i live monitor a UIAlertController's textfield ?
-        var textFieldText: String?
+        var textField = UITextField()
         
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             //what will happen once the user clicks the Add Item button on our UIAlert
-            print("Success to the console!")
             
+            self.itemArray.append(textField.text!)
+            self.tableView.reloadData()
         }
         
         alert.addTextField(configurationHandler: { alertTextField in
 
             alertTextField.placeholder = "Create new item"
-            print("textfield updated")
-
+            textField = alertTextField
+            //UITextFields contain a delegate that auto checks for changes in field
+            //im assuming, after every keystroke a snapshot is taken by said delegate
         })
         
         
