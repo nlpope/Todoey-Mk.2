@@ -70,6 +70,7 @@ extension ToDoListViewController  {
             //what will happen once the user clicks the Add Item button on our UIAlert
             
             self.itemArray.append(textField.text!)
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
             self.tableView.reloadData()
         }
         
