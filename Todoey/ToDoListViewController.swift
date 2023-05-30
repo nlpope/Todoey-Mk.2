@@ -6,6 +6,8 @@
 //  Copyright © 2019 App Brewery. All rights reserved.
 //
 
+//reviewing/practicing singletons via playgrounds
+
 import UIKit
 
 //UITableViewController by default conforms to UITableViewDatasource & ..Delegate
