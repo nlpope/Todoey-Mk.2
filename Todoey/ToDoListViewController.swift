@@ -14,7 +14,8 @@ import UIKit
 //..conforms = no UITab....Source...Delegate calls needed but must still be defined in ext
 class ToDoListViewController: UITableViewController {
     
-    var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogorgon"]
+//    var completed: Bool = false
+    var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogorgon", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     
     let defaults = UserDefaults.standard
 
