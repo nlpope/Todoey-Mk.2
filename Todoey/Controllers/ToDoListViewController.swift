@@ -34,32 +34,7 @@ class ToDoListViewController: UITableViewController {
         newItem3.title = "Save the world"
         itemArray.append(newItem3)
         
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-        itemArray.append(newItem3)
-
-
-
-        
+                
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
         appearance.backgroundColor = UIColor.systemBlue
@@ -68,14 +43,14 @@ class ToDoListViewController: UITableViewController {
         navigationItem.scrollEdgeAppearance = appearance
         
         //set the global itemArray variable to the user defaults
-//        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
-//            itemArray = items
-//        }
+        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
+            itemArray = items
+        }
         
     }
 }
 
-
+//MARK: DATASOURCE AND DELEGATE METHODS
 extension ToDoListViewController  {
     //MARK: TableView DataSource Methods
     //..conforms = no UITab....Source...Delegate calls needed but must still be defined in ext
@@ -98,8 +73,8 @@ extension ToDoListViewController  {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
-        let cell = tableView.cellForRow(at: indexPath)
         //below was inefficient, could be handling in one place while I reload here
+        //let cell = tableView.cellForRow(at: indexPath)
         //tableView.cellForRow(at: indexPath)?.accessoryType = cell?.accessoryType != .checkmark ? .checkmark : .none
 
         tableView.reloadData()
