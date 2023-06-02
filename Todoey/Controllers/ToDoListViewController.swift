@@ -33,6 +33,30 @@ class ToDoListViewController: UITableViewController {
         let newItem3 = Item()
         newItem3.title = "Save the world"
         itemArray.append(newItem3)
+        
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+        itemArray.append(newItem3)
+
 
 
         
@@ -59,20 +83,26 @@ extension ToDoListViewController  {
         return itemArray.count
     }
     
+    //handle checkmarks here (in one place) and just RELOAD the data in the delegat DIDSELECTROWAT
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
-        cell.textLabel?.text = itemArray[indexPath.row].title
-        cell.accessoryType = itemArray[indexPath.row].done == true ? .checkmark : .none
+        let item = itemArray[indexPath.row]
+        
+        cell.textLabel?.text = item.title
+        //below status check handles re-used cells' repeating check mark problem
+        cell.accessoryType = item.done == true ? .checkmark : .none
         return cell
     }
     
     //MARK: TableView Delegate Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        itemArray[indexPath.row].done = itemArray[indexPath.row].done == false ? true : false
+        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
         let cell = tableView.cellForRow(at: indexPath)
-        tableView.cellForRow(at: indexPath)?.accessoryType = cell?.accessoryType != .checkmark ? .checkmark : .none
+        //below was inefficient, could be handling in one place while I reload here
+        //tableView.cellForRow(at: indexPath)?.accessoryType = cell?.accessoryType != .checkmark ? .checkmark : .none
 
+        tableView.reloadData()
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
