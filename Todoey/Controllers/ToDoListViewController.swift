@@ -14,7 +14,7 @@ import UIKit
 //..conforms = no UITab....Source...Delegate calls needed but must still be defined in ext
 class ToDoListViewController: UITableViewController {
     
-//    var completed: Bool = false
+    //REMEMBER: YOU CAN'T SAVE AN ARRAY OF CUSTOM OBJECTS TO USER DEFAULTS. UDs ONLY STORES NS TYPES
     var itemArray = [Item]()
     
     let defaults = UserDefaults.standard
