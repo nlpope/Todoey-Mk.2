@@ -22,6 +22,10 @@ class ToDoListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        
+        print(dataFilePath)
+        
         let newItem = Item()
         newItem.title = "Find Mike"
         itemArray.append(newItem)
