@@ -6,7 +6,7 @@
 //  Copyright © 2019 App Brewery. All rights reserved.
 //
 
-//reviewing/practicing singletons via playgrounds
+//test text
 
 import UIKit
 
