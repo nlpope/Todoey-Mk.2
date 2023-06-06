@@ -16,13 +16,13 @@ class ToDoListViewController: UITableViewController {
     
     //REMEMBER: YOU CAN'T SAVE AN ARRAY OF CUSTOM OBJECTS TO USER DEFAULTS. UDs ONLY STORES NS TYPES
     var itemArray = [Item]()
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
     
-    let defaults = UserDefaults.standard
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        //replaces User Defaults
+        
         
         print(dataFilePath)
         
@@ -47,9 +47,9 @@ class ToDoListViewController: UITableViewController {
         navigationItem.scrollEdgeAppearance = appearance
         
         //set the global itemArray variable to the user defaults
-        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
-            itemArray = items
-        }
+//        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
+//            itemArray = items
+//        }
         
     }
 }
@@ -98,13 +98,22 @@ extension ToDoListViewController  {
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
-            //what will happen once the user clicks the Add Item button on our UIAlert
             let newItem = Item()
             newItem.title = textField.text!
             newItem.done = false
             
             self.itemArray.append(newItem)
-            self.defaults.set(self.itemArray, forKey: "TodoListArray")
+            
+            let encoder = PropertyListEncoder()
+            //encoder encodes our item array data into a property list
+            do {
+                let data = try encoder.encode(self.itemArray)
+                try data.write(to: self.dataFilePath!)
+            } catch {
+                print("error encoding array: \(error)")
+                
+            }
+            
             self.tableView.reloadData()
         }
         
