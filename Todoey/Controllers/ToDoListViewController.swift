@@ -81,7 +81,7 @@ extension ToDoListViewController  {
         //let cell = tableView.cellForRow(at: indexPath)
         //tableView.cellForRow(at: indexPath)?.accessoryType = cell?.accessoryType != .checkmark ? .checkmark : .none
 
-        tableView.reloadData()
+        saveItems()
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -104,17 +104,7 @@ extension ToDoListViewController  {
             
             self.itemArray.append(newItem)
             
-            let encoder = PropertyListEncoder()
-            //encoder encodes our item array data into a property list
-            do {
-                let data = try encoder.encode(self.itemArray)
-                try data.write(to: self.dataFilePath!)
-            } catch {
-                print("error encoding array: \(error)")
-                
-            }
-            
-            self.tableView.reloadData()
+            self.saveItems()
         }
         
         alert.addTextField(configurationHandler: { alertTextField in
@@ -131,6 +121,20 @@ extension ToDoListViewController  {
         
         present(alert, animated: true, completion: nil)
         
+    }
+    
+    func saveItems() {
+        let encoder = PropertyListEncoder()
+        //encoder encodes our item array data into a property list
+        do {
+            let pListData = try encoder.encode(itemArray)
+            try pListData.write(to: dataFilePath!)
+        } catch {
+            print("error encoding array: \(error)")
+            
+        }
+        
+        self.tableView.reloadData()
     }
 }
 
