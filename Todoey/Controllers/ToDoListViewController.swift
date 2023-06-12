@@ -6,7 +6,7 @@
 //  Copyright © 2019 App Brewery. All rights reserved.
 //
 
-//test text
+//reading up on computational thinking by Jeannette M. Wing
 
 import UIKit
 
