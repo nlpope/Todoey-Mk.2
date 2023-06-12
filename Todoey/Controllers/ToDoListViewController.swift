@@ -26,18 +26,6 @@ class ToDoListViewController: UITableViewController {
         
         print(dataFilePath)
         
-        let newItem = Item()
-        newItem.title = "Find Mike"
-        itemArray.append(newItem)
-        
-        let newItem2 = Item()
-        newItem2.title = "Destroy demogorgan"
-        itemArray.append(newItem2)
-        
-        let newItem3 = Item()
-        newItem3.title = "Save the world"
-        itemArray.append(newItem3)
-        
         loadItems()
         
                 
@@ -140,9 +128,15 @@ extension ToDoListViewController  {
     }
     
     func loadItems() {
-        let data = try? Data(contentsOf: dataFilePath!) {
+        //try? = we don't need an error message back from the func that throws
+        //try = we need an error message back from the func that throws - must be wrapped in do{} catch{}
+        if let data = try? Data(contentsOf: dataFilePath!) {
             let decoder = PropertyListDecoder()
-            itemArray = decoder.decode(<#T##type: Decodable.Protocol##Decodable.Protocol#>, from: <#T##Data#>)
+            do {
+                itemArray = try decoder.decode([Item].self, from: data)
+            } catch {
+                print("Error decoding item array \(error)")
+            }
             
         }
     }
