@@ -38,6 +38,8 @@ class ToDoListViewController: UITableViewController {
         newItem3.title = "Save the world"
         itemArray.append(newItem3)
         
+        loadItems()
+        
                 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -135,6 +137,14 @@ extension ToDoListViewController  {
         }
         
         self.tableView.reloadData()
+    }
+    
+    func loadItems() {
+        let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            itemArray = decoder.decode(<#T##type: Decodable.Protocol##Decodable.Protocol#>, from: <#T##Data#>)
+            
+        }
     }
 }
 
