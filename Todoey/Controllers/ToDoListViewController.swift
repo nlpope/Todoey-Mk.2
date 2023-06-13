@@ -28,7 +28,7 @@ class ToDoListViewController: UITableViewController {
         
         loadItems()
         
-                
+        
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
         appearance.backgroundColor = UIColor.systemBlue
@@ -37,9 +37,9 @@ class ToDoListViewController: UITableViewController {
         navigationItem.scrollEdgeAppearance = appearance
         
         //set the global itemArray variable to the user defaults
-//        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
-//            itemArray = items
-//        }
+        //        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
+        //            itemArray = items
+        //        }
         
     }
 }
@@ -70,7 +70,7 @@ extension ToDoListViewController  {
         //below was inefficient, could be handling in one place while I reload here
         //let cell = tableView.cellForRow(at: indexPath)
         //tableView.cellForRow(at: indexPath)?.accessoryType = cell?.accessoryType != .checkmark ? .checkmark : .none
-
+        
         saveItems()
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -98,7 +98,7 @@ extension ToDoListViewController  {
         }
         
         alert.addTextField(configurationHandler: { alertTextField in
-
+            
             alertTextField.placeholder = "Create new item"
             textField = alertTextField
             //UITextFields contain a delegate that auto checks for changes in field
