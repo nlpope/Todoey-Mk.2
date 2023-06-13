@@ -88,7 +88,9 @@ extension ToDoListViewController  {
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
-            let newItem = Item()
+            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+            
+            let newItem = Item(context: context)
             newItem.title = textField.text!
             newItem.done = false
             
@@ -117,10 +119,8 @@ extension ToDoListViewController  {
         let encoder = PropertyListEncoder()
         //encoder encodes our item array data into a property list
         do {
-            let pListData = try encoder.encode(itemArray)
-            try pListData.write(to: dataFilePath!)
+            
         } catch {
-            print("error encoding array: \(error)")
             
         }
         
