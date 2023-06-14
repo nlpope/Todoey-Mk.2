@@ -9,6 +9,7 @@
 //reading up on computational thinking by Jeannette M. Wing
 
 import UIKit
+import CoreData
 
 //UITableViewController by default conforms to UITableViewDatasource & ..Delegate
 //..conforms = no UITab....Source...Delegate calls needed but must still be defined in ext
@@ -16,18 +17,18 @@ class ToDoListViewController: UITableViewController {
     
     //REMEMBER: YOU CAN'T SAVE AN ARRAY OF CUSTOM OBJECTS TO USER DEFAULTS. UDs ONLY STORES NS TYPES
     var itemArray = [Item]()
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+
         
         //replaces User Defaults
+//        print(dataFilePath)
         
-        
-        print(dataFilePath)
-        
-        loadItems()
-        
+//        loadItems()
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -47,7 +48,7 @@ class ToDoListViewController: UITableViewController {
 //MARK: DATASOURCE AND DELEGATE METHODS
 extension ToDoListViewController  {
     //MARK: TableView DataSource Methods
-    //..conforms = no UITab....Source...Delegate calls needed but must still be defined in ext
+    //^ auto-conforms = no UITab....Source...Delegate calls needed but must still be defined in ext
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
     }
@@ -77,25 +78,18 @@ extension ToDoListViewController  {
     
     //MARK: Add New items
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        //create a pop up (UIAlertController)
-        //have an editable text field in that UIAlert
-        //on submission append the new item to the end of the itemArray
-        // display/present the pop up
-        
-        //how do i live monitor a UIAlertController's textfield ?
+      
         var textField = UITextField()
         
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
-            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
             
-            let newItem = Item(context: context)
+            let newItem = Item(context: self.context)
             newItem.title = textField.text!
             newItem.done = false
             
             self.itemArray.append(newItem)
-            
             self.saveItems()
         }
         
@@ -116,29 +110,29 @@ extension ToDoListViewController  {
     }
     
     func saveItems() {
-        let encoder = PropertyListEncoder()
+//        let encoder = PropertyListEncoder()
         //encoder encodes our item array data into a property list
         do {
-            
+           try context.save()
         } catch {
-            
+            print("error saving context \(error)")
         }
         
         self.tableView.reloadData()
     }
     
-    func loadItems() {
-        //try? = we don't need an error message back from the func that throws
-        //try = we need an error message back from the func that throws - must be wrapped in do{} catch{}
-        if let data = try? Data(contentsOf: dataFilePath!) {
-            let decoder = PropertyListDecoder()
-            do {
-                itemArray = try decoder.decode([Item].self, from: data)
-            } catch {
-                print("Error decoding item array \(error)")
-            }
-            
-        }
-    }
+//    func loadItems() {
+//        //try? = we don't need an error message back from the func that throws
+//        //try = we need an error message back from the func that throws - must be wrapped in do{} catch{}
+//        if let data = try? Data(contentsOf: dataFilePath!) {
+//            let decoder = PropertyListDecoder()
+//            do {
+//                itemArray = try decoder.decode([Item].self, from: data)
+//            } catch {
+//                print("Error decoding item array \(error)")
+//            }
+//
+//        }
+//    }
 }
 
