@@ -28,7 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
     
     // MARK: - Core Data stack
- 
+    
+    //CORE DATA STEP 1
     lazy var persistentContainer: NSPersistentContainer = {
  
         let container = NSPersistentContainer(name: "DataModel")

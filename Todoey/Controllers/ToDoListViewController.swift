@@ -17,6 +17,7 @@ class ToDoListViewController: UITableViewController {
     
     //REMEMBER: YOU CAN'T SAVE AN ARRAY OF CUSTOM OBJECTS TO USER DEFAULTS. UDs ONLY STORES NS TYPES
     var itemArray = [Item]()
+    //CORE DATA STEP 2
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     
@@ -85,6 +86,7 @@ extension ToDoListViewController  {
         
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             
+            //CORE DATA STEP 3
             let newItem = Item(context: self.context)
             newItem.title = textField.text!
             newItem.done = false
@@ -113,6 +115,7 @@ extension ToDoListViewController  {
 //        let encoder = PropertyListEncoder()
         //encoder encodes our item array data into a property list
         do {
+            //CORE DATA STEP 4 - FINAL
            try context.save()
         } catch {
             print("error saving context \(error)")
