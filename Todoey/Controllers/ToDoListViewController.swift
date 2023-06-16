@@ -124,18 +124,16 @@ extension ToDoListViewController  {
         self.tableView.reloadData()
     }
     
-//    func loadItems() {
-//        //try? = we don't need an error message back from the func that throws
-//        //try = we need an error message back from the func that throws - must be wrapped in do{} catch{}
-//        if let data = try? Data(contentsOf: dataFilePath!) {
-//            let decoder = PropertyListDecoder()
-//            do {
-//                itemArray = try decoder.decode([Item].self, from: data)
-//            } catch {
-//                print("Error decoding item array \(error)")
-//            }
-//
-//        }
-//    }
+    func loadItems() {
+        //try? = we don't need an error message back from the func that throws
+        //try = we need an error message back from the func that throws - must be wrapped in do{} catch{}
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        do {
+           try context.fetch(request)
+        } catch {
+            print("error fetching data: \(error)")
+        }
+      
+    }
 }
 
