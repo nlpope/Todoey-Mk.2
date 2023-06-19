@@ -29,7 +29,7 @@ class ToDoListViewController: UITableViewController {
         //replaces User Defaults
 //        print(dataFilePath)
         
-//        loadItems()
+        loadItems()
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -78,6 +78,7 @@ extension ToDoListViewController  {
     }
     
     //MARK: Add New items
+    //CRUD: CREATE
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
       
         var textField = UITextField()
@@ -124,12 +125,15 @@ extension ToDoListViewController  {
         self.tableView.reloadData()
     }
     
+    //CRUD: READ
     func loadItems() {
+        //previous loadItems method = NSPropertyListEncoder, but that's only safe for small bits of mem.
+        //> using Core Data instead
         //try? = we don't need an error message back from the func that throws
         //try = we need an error message back from the func that throws - must be wrapped in do{} catch{}
         let request: NSFetchRequest<Item> = Item.fetchRequest()
         do {
-           try context.fetch(request)
+          itemArray = try context.fetch(request)
         } catch {
             print("error fetching data: \(error)")
         }
