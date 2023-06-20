@@ -67,11 +67,14 @@ extension ToDoListViewController  {
     
     //MARK: TableView Delegate Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
-        
-        //below was inefficient, could be handling in one place while I reload here
-        //let cell = tableView.cellForRow(at: indexPath)
-        //tableView.cellForRow(at: indexPath)?.accessoryType = cell?.accessoryType != .checkmark ? .checkmark : .none
+        //when deleting elements, make sure you delete the reference AND it's equiv in the context
+        context.delete(itemArray[indexPath.row])
+        //remove the reference to the NSManagedObject
+        itemArray.remove(at: indexPath.row)
+       
+
+        //NEW TOGGLE FEATURE
+//        itemArray[indexPath.row].done.toggle()
         
         saveItems()
         tableView.deselectRow(at: indexPath, animated: true)
