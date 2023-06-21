@@ -23,7 +23,7 @@ class ToDoListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+//        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
 
         
         //replaces User Defaults
@@ -67,17 +67,27 @@ extension ToDoListViewController  {
     
     //MARK: TableView Delegate Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        //when deleting elements, make sure you delete the reference AND it's equiv in the context
-//        context.delete(itemArray[indexPath.row])
-//        //remove the reference to the NSManagedObject
-//        itemArray.remove(at: indexPath.row)
-       
 
-        //NEW TOGGLE FEATURE
+        //SWIFT'S NEW TOGGLE FEATURE
         itemArray[indexPath.row].done.toggle()
         
         saveItems()
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+//    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+//        return true
+//    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            //when deleting elements, make sure you delete the reference AND it's equiv in the context
+            context.delete(itemArray[indexPath.row])
+            //remove the reference to the NSManagedObject
+            itemArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            saveItems()
+        }
     }
     
     //MARK: Add New items
