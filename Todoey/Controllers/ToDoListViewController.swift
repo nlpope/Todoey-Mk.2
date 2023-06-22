@@ -45,11 +45,7 @@ class ToDoListViewController: UITableViewController {
         
     }
     
-    
-}
-
-//MARK: DATASOURCE AND DELEGATE METHODS
-extension ToDoListViewController: UISearchBarDelegate  {
+    //MARK: DATASOURCE AND DELEGATE METHODS
     //MARK: TableView DataSource Methods
     //^ auto-conforms = no UITab....Source...Delegate calls needed but must still be defined in ext
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -130,8 +126,7 @@ extension ToDoListViewController: UISearchBarDelegate  {
     //MARK: MODEL MANIPULATION METHODS
     
     func saveItems() {
-//        let encoder = PropertyListEncoder()
-        //encoder encodes our item array data into a property list
+
         do {
             //CORE DATA STEP 4 - FINAL
            try context.save()
@@ -157,9 +152,15 @@ extension ToDoListViewController: UISearchBarDelegate  {
       
     }
     
+}
+
+
+extension ToDoListViewController: UISearchBarDelegate  {
+    
     //MARK: SEARCHBAR METHODS
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
+        //below returns an array of Items (<Item>)
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
     }
 }
 
