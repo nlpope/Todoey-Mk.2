@@ -12,7 +12,7 @@ import UIKit
 import CoreData
 
 //UITableViewController by default conforms to UITableViewDatasource & ..Delegate
-//..conforms = no UITab....Source...Delegate calls needed but must still be defined in ext
+//..conforms = no UITab....Source...Delegate calls needed but must still be defined 
 class ToDoListViewController: UITableViewController {
     
     //REMEMBER: YOU CAN'T SAVE AN ARRAY OF CUSTOM OBJECTS TO USER DEFAULTS. UDs ONLY STORES NS TYPES
@@ -138,9 +138,7 @@ class ToDoListViewController: UITableViewController {
     }
     
     //CRUD: READ
-    func loadItems() {
-        //previous loadItems method = NSPropertyListEncoder, but that's only safe for small bits of mem.
-        //> using Core Data instead
+    func loadItems(with request: NSFetchRequest<Item>) {
         //try? = we don't need an error message back from the func that throws
         //try = we need an error message back from the func that throws - must be wrapped in do{} catch{}
         let request: NSFetchRequest<Item> = Item.fetchRequest()
@@ -149,6 +147,8 @@ class ToDoListViewController: UITableViewController {
         } catch {
             print("error fetching data: \(error)")
         }
+        
+        tableView.reloadData()
       
     }
     
@@ -159,8 +159,17 @@ extension ToDoListViewController: UISearchBarDelegate  {
     
     //MARK: SEARCHBAR METHODS
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        //below returns an array of Items (<Item>)
+        //below returns an array of Items (<Item>) - needs a predicate (search filter) and sort descriptors
         let request: NSFetchRequest<Item> = Item.fetchRequest()
+        
+        //NSPredicate = which properties to filter by
+        // %@ = "whatever is past the comma after this value will replace it
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+                
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+                
+        loadItems(with: request)
+        
     }
 }
 
