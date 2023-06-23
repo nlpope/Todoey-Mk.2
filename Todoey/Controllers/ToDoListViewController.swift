@@ -138,10 +138,12 @@ class ToDoListViewController: UITableViewController {
     }
     
     //CRUD: READ
-    func loadItems(with request: NSFetchRequest<Item>) {
+    //when using core data, Item auto has .fetchRequest() built in,
+    //so Item.fetchRequest() returns all Items in the array w/out a predicate/filter
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
         //try? = we don't need an error message back from the func that throws
         //try = we need an error message back from the func that throws - must be wrapped in do{} catch{}
-        let request: NSFetchRequest<Item> = Item.fetchRequest()
+      
         do {
           itemArray = try context.fetch(request)
         } catch {
