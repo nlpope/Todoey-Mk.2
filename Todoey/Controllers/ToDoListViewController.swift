@@ -24,12 +24,6 @@ class ToDoListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-
-        
-        //replaces User Defaults
-//        print(dataFilePath)
-        
-        loadItems()
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -38,10 +32,8 @@ class ToDoListViewController: UITableViewController {
         navigationItem.standardAppearance = appearance
         navigationItem.scrollEdgeAppearance = appearance
         
-        //set the global itemArray variable to the user defaults
-        //        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
-        //            itemArray = items
-        //        }
+        loadItems()
+        
         
     }
     
@@ -171,6 +163,18 @@ extension ToDoListViewController: UISearchBarDelegate  {
         request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
                 
         loadItems(with: request)
+        
+        if searchText.isEmpty {
+            loadItems()
+            
+            //after the function "textDidChange" exits, the below is triggered
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+            
+//            searchBar.resignFirstResponder()
+
+        }
         
     }
 }
