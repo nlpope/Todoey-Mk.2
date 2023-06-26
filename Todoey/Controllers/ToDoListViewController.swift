@@ -168,6 +168,8 @@ extension ToDoListViewController: UISearchBarDelegate  {
             loadItems()
             
             //after the function "textDidChange" exits, the below is triggered
+            //because you cannot resign first resp. until searchBar is finished talking to you from this func
+            //resulting in the keyboard flashing back in after it was resigned
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
             }
