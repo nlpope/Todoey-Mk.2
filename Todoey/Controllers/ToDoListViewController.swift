@@ -37,7 +37,7 @@ class ToDoListViewController: UITableViewController {
         
     }
     
-    //MARK: DATASOURCE AND DELEGATE METHODS
+    //MARK: - DATASOURCE AND DELEGATE METHODS
     //MARK: TableView DataSource Methods
     //^ auto-conforms = no UITab....Source...Delegate calls needed but must still be defined in ext
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -80,7 +80,7 @@ class ToDoListViewController: UITableViewController {
         }
     }
     
-    //MARK: Add New items
+    //MARK: - Add New items
     //CRUD: CREATE
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
       
@@ -115,7 +115,7 @@ class ToDoListViewController: UITableViewController {
         
     }
     
-    //MARK: MODEL MANIPULATION METHODS
+    //MARK: - MODEL MANIPULATION METHODS
     
     func saveItems() {
 
@@ -126,7 +126,8 @@ class ToDoListViewController: UITableViewController {
             print("error saving context \(error)")
         }
         
-        self.tableView.reloadData()
+        //took "self." out
+        tableView.reloadData()
     }
     
     //CRUD: READ
@@ -169,7 +170,7 @@ extension ToDoListViewController: UISearchBarDelegate  {
             
             //after the function "textDidChange" exits, the below is triggered
             //because you cannot resign first resp. until searchBar is finished talking to you from this func
-            //resulting in the keyboard flashing back in after it was resigned
+            //resulting in the keyboard flashing back in after it was resigned for "textDidChange" being triggered on clear
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
             }
