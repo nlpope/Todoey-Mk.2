@@ -11,7 +11,7 @@
         <!--Todoey-->
         <scene sceneID="g8b-rs-Jku">
             <objects>
-                <tableViewController id="mDv-uc-4uR" customClass="CategoryViewController" sceneMemberID="viewController">
+                <tableViewController id="mDv-uc-4uR" customClass="CategoryViewController" customModule="Todoey_Mk__2" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="H1u-N4-xv6">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

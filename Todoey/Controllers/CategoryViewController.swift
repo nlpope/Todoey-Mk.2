@@ -17,9 +17,17 @@ class CategoryViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = UIColor.systemBlue
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationItem.standardAppearance = appearance
+        navigationItem.scrollEdgeAppearance = appearance
         
     }
+    
+    
 
     //MARK: - TableViewDatasource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -44,7 +52,6 @@ class CategoryViewController: UITableViewController {
         } catch {
             print("error saving context: \(error)")
         }
-        //took ".self" out
         tableView.reloadData()
     }
     
@@ -53,7 +60,7 @@ class CategoryViewController: UITableViewController {
         do {
             categoryArray = try context.fetch(request)
         } catch {
-            print("error fetching data: \(error)")
+            print("error fetching categories: \(error)")
         }
         
         tableView.reloadData()
@@ -63,6 +70,29 @@ class CategoryViewController: UITableViewController {
     //MARK: - Add New Categories
 
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        print("add button pressed in category VC")
+        
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add Category", style: .default) { (action) in
+            
+            let newCategory = Category(context: self.context)
+            newCategory.name = textField.text!
+            
+            self.categoryArray.append(newCategory)
+            self.saveCategories()
+        }
+        
+        alert.addTextField(configurationHandler: { alertTextField in
+            
+            alertTextField.placeholder = "Create new category"
+            textField = alertTextField
+        })
+        
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
     
     

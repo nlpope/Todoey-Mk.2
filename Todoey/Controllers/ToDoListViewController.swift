@@ -15,7 +15,7 @@ import CoreData
 //..conforms = no UITab....Source...Delegate calls needed but must still be defined 
 class ToDoListViewController: UITableViewController {
     
-    //REMEMBER: YOU CAN'T SAVE AN ARRAY OF CUSTOM OBJECTS TO USER DEFAULTS. UDs ONLY STORES NS TYPES
+    //REMEMBER: YOU CAN'T SAVE AN ARRAY OF CUSTOM OBJECTS TO USER DEFAULTS. UDs ONLY STORES SMALL NS TYPES
     var itemArray = [Item]()
     //CORE DATA STEP 2
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -37,8 +37,7 @@ class ToDoListViewController: UITableViewController {
         
     }
     
-    //MARK: - DATASOURCE AND DELEGATE METHODS
-    //MARK: TableView DataSource Methods
+    //MARK: - TableView DataSource Methods
     //^ auto-conforms = no UITab....Source...Delegate calls needed but must still be defined in ext
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
@@ -55,7 +54,7 @@ class ToDoListViewController: UITableViewController {
         return cell
     }
     
-    //MARK: TableView Delegate Methods
+    //MARK: - TableView Delegate Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         //SWIFT'S NEW TOGGLE FEATURE
@@ -80,7 +79,8 @@ class ToDoListViewController: UITableViewController {
         }
     }
     
-    //MARK: - Add New items
+    
+    //MARK: - MODEL MANIPULATION METHODS
     //CRUD: CREATE
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
       
@@ -88,6 +88,7 @@ class ToDoListViewController: UITableViewController {
         
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         
+        //TAKE OUT ACTION, SEE WHAT HAPPENS 
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             
             //CORE DATA STEP 3
@@ -115,8 +116,6 @@ class ToDoListViewController: UITableViewController {
         
     }
     
-    //MARK: - MODEL MANIPULATION METHODS
-    
     func saveItems() {
 
         do {
@@ -140,7 +139,7 @@ class ToDoListViewController: UITableViewController {
         do {
           itemArray = try context.fetch(request)
         } catch {
-            print("error fetching data: \(error)")
+            print("error fetching items: \(error)")
         }
         
         tableView.reloadData()
@@ -182,3 +181,12 @@ extension ToDoListViewController: UISearchBarDelegate  {
     }
 }
 
+
+/**
+ HELPFUL RESOURCES:
+ 
+ if let unwrapping
+ https://www.programiz.com/swift-programming/optionals#:~:text=Example%205%3A%20Optional%20handling%20using%20if%20let%20statement&text=The%20if%2Dlet%20statement%20also,an%20optional%20contains%20a%20value.
+ 
+ 
+ */
