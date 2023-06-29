@@ -89,7 +89,7 @@ class ToDoListViewController: UITableViewController {
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         
         //TAKE OUT ACTION, SEE WHAT HAPPENS 
-        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+        let action = UIAlertAction(title: "Add Item", style: .default) { (_) in
             
             //CORE DATA STEP 3
             let newItem = Item(context: self.context)
