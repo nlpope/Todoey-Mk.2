@@ -47,13 +47,29 @@ class CategoryViewController: UITableViewController {
         return cell
     }
     
+    //MARK: - TableView Delegate Methods
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //below triggers "prepare(for segue...)" func below
+        performSegue(withIdentifier: "goToItems", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! ToDoListViewController
+        
+        //we don't have access to indexPath that comes from didSelectRowAt...
+        //so scan for where you are using .indexPathForSelectedRow
+        if let indexPath = tableView.indexPathForSelectedRow {
+            destinationVC.selectedCategory = categoryArray[indexPath.row]
+        }
+    }
+    
     //MARK: - Data Manipulation Methods
     
     func saveCategories() {
         do {
             try context.save()
         } catch {
-            print("error saving context: \(error)")
+            print("error saving category: \(error)")
         }
         tableView.reloadData()
     }
@@ -97,9 +113,5 @@ class CategoryViewController: UITableViewController {
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
-    
-    
-    //MARK: - TableView Delegate Methods
-    //> save for later
     
 }

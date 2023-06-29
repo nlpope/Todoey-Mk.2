@@ -17,6 +17,9 @@ class ToDoListViewController: UITableViewController {
     
     //REMEMBER: YOU CAN'T SAVE AN ARRAY OF CUSTOM OBJECTS TO USER DEFAULTS. UDs ONLY STORES SMALL NS TYPES
     var itemArray = [Item]()
+    
+    var selectedCategory: Category?
+    
     //CORE DATA STEP 2
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
