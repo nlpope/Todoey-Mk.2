@@ -54,14 +54,19 @@ class CategoryViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //destinationVC = TodoListVC
         let destinationVC = segue.destination as! ToDoListViewController
-        
+
         //we don't have access to indexPath that comes from didSelectRowAt...
         //so scan for where you are using .indexPathForSelectedRow
         if let indexPath = tableView.indexPathForSelectedRow {
             destinationVC.selectedCategory = categoryArray[indexPath.row]
         }
     }
+    
+    
+    
+    
     
     //MARK: - Data Manipulation Methods
     

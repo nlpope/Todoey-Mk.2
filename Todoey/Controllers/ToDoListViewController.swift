@@ -18,7 +18,11 @@ class ToDoListViewController: UITableViewController {
     //REMEMBER: YOU CAN'T SAVE AN ARRAY OF CUSTOM OBJECTS TO USER DEFAULTS. UDs ONLY STORES SMALL NS TYPES
     var itemArray = [Item]()
     
-    var selectedCategory: Category?
+    var selectedCategory: Category? {
+        didSet {
+            loadItems()
+        }
+    }
     
     //CORE DATA STEP 2
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -34,10 +38,7 @@ class ToDoListViewController: UITableViewController {
         appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationItem.standardAppearance = appearance
         navigationItem.scrollEdgeAppearance = appearance
-        
-        loadItems()
-        
-        
+                    
     }
     
     //MARK: - TableView DataSource Methods
@@ -91,13 +92,13 @@ class ToDoListViewController: UITableViewController {
         
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         
-        //TAKE OUT ACTION, SEE WHAT HAPPENS 
         let action = UIAlertAction(title: "Add Item", style: .default) { (_) in
             
             //CORE DATA STEP 3
             let newItem = Item(context: self.context)
             newItem.title = textField.text!
             newItem.done = false
+            newItem.parentCategory = self.selectedCategory
             
             self.itemArray.append(newItem)
             self.saveItems()
@@ -136,9 +137,17 @@ class ToDoListViewController: UITableViewController {
     //when using core data, Item auto has .fetchRequest() built in,
     //so Item.fetchRequest() returns all Items in the array w/out a predicate/filter
     func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
-        //try? = we don't need an error message back from the func that throws
-        //try = we need an error message back from the func that throws - must be wrapped in do{} catch{}
-      
+        //if you load it w/out the request being defined by the searchbar
+        //then override the prdicate
+        if request == Item.fetchRequest() {
+            let predicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+            
+            request.predicate = predicate
+
+        }
+        
+        
+        //otherwise use the request and its predicate from the searchbar func to filter both parentCategory && searchbar text
         do {
           itemArray = try context.fetch(request)
         } catch {
@@ -161,7 +170,7 @@ extension ToDoListViewController: UISearchBarDelegate  {
         
         //NSPredicate = which properties to filter by
         // %@ = "whatever is past the comma after this value will replace it
-        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        request.predicate = NSPredicate(format: "parentCategory.name MATCHES %@ && title CONTAINS[cd] %@", selectedCategory!.name!, searchBar.text!)
                 
         request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
                 
@@ -170,8 +179,8 @@ extension ToDoListViewController: UISearchBarDelegate  {
         if searchText.isEmpty {
             loadItems()
             
-            //after the function "textDidChange" exits, the below is triggered
-            //because you cannot resign first resp. until searchBar is finished talking to you from this func
+            //after the function "textDidChange" exits, the below is triggered asynchronously
+            //because you cannot resign first resp. until searchBar is finished talking to you and exits the func
             //resulting in the keyboard flashing back in after it was resigned for "textDidChange" being triggered on clear
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
