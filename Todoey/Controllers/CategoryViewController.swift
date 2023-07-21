@@ -6,6 +6,10 @@
 //  Copyright © 2023 App Brewery. All rights reserved.
 //
 
+/**
+ researching core data vs realm
+ */
+
 import UIKit
 import CoreData
 
